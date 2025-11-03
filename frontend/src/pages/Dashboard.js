@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import api from '../utils/api';
 import { FaBook, FaCertificate, FaChartLine, FaUserCircle, FaUsers } from 'react-icons/fa';
+import RatingModal from '../components/RatingModal';
 import '../styles/Dashboard.css';
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const [enrollments, setEnrollments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [ratingModalOpen, setRatingModalOpen] = useState(false);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
 
   useEffect(() => {
     fetchEnrollments();
@@ -142,9 +145,18 @@ const Dashboard = () => {
                               <button className="btn btn-sm btn-primary">Continue</button>
                             </Link>
                             {enrollment.progress === 100 && (
-                              <button className="btn btn-sm btn-outline" onClick={() => downloadCertificate(enrollment._id)} style={{marginLeft: '8px'}}>
-                                Download Certificate
-                              </button>
+                                <>
+                                  <button className="btn btn-sm btn-outline" onClick={() => downloadCertificate(enrollment._id)} style={{marginLeft: '8px'}}>
+                                    Download Certificate
+                                  </button>
+                                  <button
+                                    className="btn btn-sm btn-outline"
+                                    onClick={() => { setSelectedCourseId(enrollment.course._id); setRatingModalOpen(true); }}
+                                    style={{ marginLeft: '8px' }}
+                                  >
+                                    Rate
+                                  </button>
+                                </>
                             )}
                     </div>
                   </div>
@@ -194,6 +206,14 @@ const Dashboard = () => {
             </div>
           </section>
         )}
+        <RatingModal
+          open={ratingModalOpen}
+          onClose={() => setRatingModalOpen(false)}
+          courseId={selectedCourseId}
+          onSuccess={() => {
+            // optional: refresh enrollments or other state
+          }}
+        />
       </div>
     </div>
   );
