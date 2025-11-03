@@ -1,4 +1,4 @@
-/*
+
 const paypal = require('paypal-rest-sdk');
 
 paypal.configure({
@@ -9,8 +9,8 @@ paypal.configure({
 
 module.exports = paypal;
 
-*/
 
+/*
 const paypal = require('paypal-rest-sdk');
 
 paypal.configure({
@@ -20,4 +20,4 @@ paypal.configure({
 });
 
 module.exports = paypal;
-
+*/
