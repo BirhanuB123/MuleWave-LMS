@@ -35,14 +35,20 @@ const Navbar = () => {
           <div className="navbar-links">
             <Link to="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
             <Link to="/courses" onClick={() => setMobileMenuOpen(false)}>Courses</Link>
-            
+
             {user && (
               <>
                 <Link to="/my-courses" onClick={() => setMobileMenuOpen(false)}>My Learning</Link>
-                {(user.role === 'instructor' || user.role === 'admin') && (
+                {user.role === 'instructor' && (
                   <Link to="/instructor/dashboard" onClick={() => setMobileMenuOpen(false)}>
                     <FaChalkboardTeacher style={{ marginRight: '5px' }} />
                     Instructor
+                  </Link>
+                )}
+                {user.role === 'admin' && (
+                  <Link to="/admin/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                    <FaChalkboardTeacher style={{ marginRight: '5px' }} />
+                    Admin
                   </Link>
                 )}
               </>

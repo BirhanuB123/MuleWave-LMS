@@ -1,28 +1,40 @@
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  /* Hero uses a rich photo with a gradient overlay for dramatic effect */
+  background: linear-gradient(180deg, rgba(var(--primary-rgb,14,165,164),0.82) 0%, rgba(37,99,235,0.7) 100%),
+    url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=2000&q=80')
+      center/cover no-repeat;
   color: white;
   padding: 6rem 0;
   text-align: center;
+  min-height: 66vh;
+  display: flex;
+  align-items: center;
 }
 
 .hero-content {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
+  backdrop-filter: blur(4px);
+  padding: 2rem;
+  border-radius: 12px;
+  /* Transparent so white hero text stays readable over the dark gradient */
+  background: transparent;
 }
 
 .hero-title {
   font-size: 3.5rem;
   font-weight: 800;
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
+  margin-bottom: 1rem;
+  line-height: 1.08;
   animation: fadeIn 0.8s ease-in-out;
+  text-shadow: 0 6px 30px rgba(17,24,39,0.35);
 }
 
 .hero-subtitle {
   font-size: 1.25rem;
   margin-bottom: 2rem;
-  opacity: 0.95;
+  color: rgba(255,255,255,0.95);
   line-height: 1.6;
   animation: fadeIn 1s ease-in-out;
 }
@@ -33,6 +45,26 @@
   justify-content: center;
   flex-wrap: wrap;
   animation: fadeIn 1.2s ease-in-out;
+}
+
+.hero .btn-primary {
+  padding: 1rem 1.75rem;
+  font-size: 1.05rem;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(14,165,164,0.16);
+}
+
+.hero .btn-outline {
+  border: 2px solid rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.95);
+  background: transparent;
+}
+
+/* Glass-style card for small hero-level badges (kept separate to avoid colliding with site feature cards) */
+.hero-feature-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.06));
+  border: 1px solid rgba(255,255,255,0.06);
+  color: white;
 }
 
 .hero-actions .btn-outline {

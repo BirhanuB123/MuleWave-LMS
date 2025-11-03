@@ -1,6 +1,7 @@
 const Enrollment = require('../models/Enrollment');
 const Course = require('../models/Course');
 const User = require('../models/User');
+const PDFDocument = require('pdfkit');
 
 // @desc    Enroll in a course
 // @route   POST /api/enrollments/:courseId
@@ -170,6 +171,70 @@ exports.updateProgress = async (req, res) => {
       success: false,
       message: error.message
     });
+  }
+};
+
+// @desc    Generate completion certificate PDF for an enrollment
+// @route   GET /api/enrollments/:id/certificate
+// @access  Private (student or admin)
+exports.generateCertificate = async (req, res) => {
+  try {
+    const enrollment = await Enrollment.findById(req.params.id)
+      .populate('course')
+      .populate('student', 'firstName lastName email');
+
+    if (!enrollment) {
+      return res.status(404).json({ success: false, message: 'Enrollment not found' });
+    }
+
+    // Make sure user is the enrolled student or admin
+    if (enrollment.student._id.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(401).json({ success: false, message: 'Not authorized to access this enrollment' });
+    }
+
+    if (enrollment.progress < 100) {
+      return res.status(400).json({ success: false, message: 'Course not yet completed' });
+    }
+
+    // Generate PDF certificate
+    const doc = new PDFDocument({ size: 'A4', layout: 'landscape' });
+
+    // Stream to response
+    res.setHeader('Content-Type', 'application/pdf');
+    const filename = `certificate-${enrollment._id}.pdf`;
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+
+    doc.fontSize(36).fillColor('#0b8f8d').text('Certificate of Completion', { align: 'center' });
+    doc.moveDown(1.5);
+
+    doc.fontSize(22).fillColor('#111827').text(`This is to certify that`, { align: 'center' });
+    doc.moveDown(0.5);
+
+    doc.fontSize(30).fillColor('#000').text(`${enrollment.student.firstName} ${enrollment.student.lastName}`, { align: 'center', underline: true });
+    doc.moveDown(0.5);
+
+    doc.fontSize(20).fillColor('#111827').text(`has successfully completed the course`, { align: 'center' });
+    doc.moveDown(0.5);
+
+    doc.fontSize(26).fillColor('#000').text(`${enrollment.course.title}`, { align: 'center', underline: true });
+    doc.moveDown(1);
+
+    const completedOn = enrollment.completionDate ? new Date(enrollment.completionDate) : new Date();
+    doc.fontSize(16).fillColor('#111827').text(`Date of completion: ${completedOn.toDateString()}`, { align: 'center' });
+
+    doc.moveDown(2);
+    doc.fontSize(14).fillColor('#6b7280').text('MuleWave LMS — Empowering learners worldwide', { align: 'center' });
+
+    doc.end();
+    doc.pipe(res);
+
+    // mark certificateIssued true if not already
+    if (!enrollment.certificateIssued) {
+      enrollment.certificateIssued = true;
+      await enrollment.save();
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 

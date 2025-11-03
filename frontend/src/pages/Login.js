@@ -30,7 +30,14 @@ const Login = () => {
 
     if (result.success) {
       toast.success('Login successful!');
-      navigate('/dashboard');
+      // Redirect based on role
+      if (result.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else if (result.role === 'instructor') {
+        navigate('/instructor/dashboard');
+      } else {
+        navigate('/dashboard');
+      }
     } else {
       toast.error(result.message);
     }
