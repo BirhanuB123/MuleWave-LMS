@@ -5,7 +5,7 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add a course title'],
     trim: true,
-    maxlength: [100, 'Title cannot be more than 100 characters']
+    maxlength: [50, 'Title cannot be more than 50 characters']
   },
   description: {
     type: String,
@@ -18,7 +18,7 @@ const courseSchema = new mongoose.Schema({
     maxlength: [200, 'Short description cannot be more than 200 characters']
   },
   instructor: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId, // fetch from mongodb
     ref: 'User',
     required: true
   },

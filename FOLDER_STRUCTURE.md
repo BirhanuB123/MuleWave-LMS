@@ -99,43 +99,9 @@ MuleWave-LMS/
 │   ├── 📄 package.json                   # Frontend dependencies
 │   └── 📄 .gitignore                     # Frontend gitignore
 │
-└── 📁 node_modules/                      # Dependencies (not committed)
+└── 📁 node_modules/                      # Dependencies (not committed) <-- npm dependencies
 
 ```
-
-## 📊 File Count Summary
-
-### Backend
-- **Configuration Files:** 2
-- **Controllers:** 5
-- **Middleware:** 1
-- **Models:** 5
-- **Routes:** 5
-- **Main Files:** 3 (server.js, package.json, .env.example)
-- **Total Backend Files:** 21
-
-### Frontend
-- **Components:** 4
-- **Context:** 1
-- **Pages:** 15
-- **Styles:** 14 (including index.css)
-- **Utils:** 1
-- **Main Files:** 4 (App.js, index.js, index.html, manifest.json)
-- **Total Frontend Files:** 39
-
-### Documentation
-- **README.md:** Main documentation
-- **SETUP_GUIDE.md:** Quick start guide
-- **PROJECT_SUMMARY.md:** Project overview
-- **DIRECTORY_STRUCTURE.md:** This file
-- **Total Documentation Files:** 4
-
-### Configuration
-- **Root package.json:** Project scripts
-- **.gitignore files:** 3 (root, backend, frontend)
-- **Total Configuration Files:** 4
-
-## 🎯 **Grand Total: 68 Files Created**
 
 ## 📦 Key Directories Explained
 

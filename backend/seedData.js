@@ -23,35 +23,35 @@ const seedData = async () => {
     // Clear existing data (optional - comment out if you don't want to clear)
     await Course.deleteMany({});
     await User.deleteMany({});
-    console.log('🗑️  Cleared existing data');
+    console.log('🗑️ Cleared existing data');
 
     // Create sample instructor
     const instructor = await User.create({
-      firstName: 'Sarah',
-      lastName: 'Johnson',
-      email: 'instructor@mulewave.com',
+      firstName: 'Birhanu',
+      lastName: 'Getu',
+      email: 'birhanu@mulewave.com',
       password: 'password123',
       role: 'instructor',
-      bio: 'Experienced software engineer with 10+ years of teaching experience. Passionate about making complex topics easy to understand.'
+      bio: 'Experienced software engineer with 3+ years of teaching experience. Passionate about making complex topics easy to understand.'
     });
 
     // Create sample student
     const student = await User.create({
       firstName: 'John',
       lastName: 'Doe',
-      email: 'student@mulewave.com',
+      email: 'john@gmail.com',
       password: 'password123',
       role: 'student'
     });
 
     console.log('✅ Created sample users');
-    console.log('📧 Instructor: instructor@mulewave.com / password123');
-    console.log('📧 Student: student@mulewave.com / password123');
+    console.log('📧 Instructor: birhanu@mulewave.com / password123');
+    console.log('📧 Student: john@gmail.com / password123');
 
     // Create sample courses
     const courses = [
       {
-        title: 'Complete Web Development Bootcamp 2024',
+        title: 'Complete Web Development Bootcamp 2025',
         shortDescription: 'Learn full-stack web development from scratch - HTML, CSS, JavaScript, React, Node.js, and MongoDB',
         description: `Master web development with this comprehensive bootcamp! This course covers everything you need to become a professional full-stack developer.
 
@@ -121,7 +121,7 @@ This course includes hands-on projects, real-world examples, and lifetime access
         isPublished: true
       },
       {
-        title: 'React JS - The Complete Guide 2024',
+        title: 'React JS - The Complete Guide 2025',
         shortDescription: 'Master React including Hooks, Context API, Redux, and Next.js. Build modern web applications.',
         description: `Become a React expert with this comprehensive course! Learn everything from basics to advanced concepts.
 
@@ -409,7 +409,7 @@ Perfect for absolute beginners who want to explore programming before committing
     console.log('\n✨ Seed data created successfully!');
     console.log('\n🎯 Next Steps:');
     console.log('   1. Go to http://localhost:3001');
-    console.log('   2. Login as instructor@mulewave.com or student@mulewave.com');
+    console.log('   2. Login as birhanu@mulewave.com or john@gmail.com');
     console.log('   3. Browse and enroll in courses');
     console.log('   4. Test the PayPal payment for paid courses!');
     console.log('\n💳 PayPal Test: Use sandbox accounts from PayPal Developer Dashboard');

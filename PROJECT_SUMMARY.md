@@ -1,12 +1,10 @@
 # MuleWave LMS - Project Summary
 
-## 🎉 Project Completion Status: ✅ COMPLETE
-
 This document provides a comprehensive overview of the MuleWave Learning Management System project.
 
 ## 📊 Project Overview
 
-**MuleWave LMS** is a full-featured Learning Management System inspired by Anthology/Blackboard, built from scratch with modern web technologies. The platform enables students to enroll in courses, instructors to create and manage content, and administrators to oversee the entire system.
+**MuleWave LMS** is a full-featured Learning Management System, built from scratch with modern web technologies. The platform enables students to enroll in courses, instructors to create and manage content, and administrators to oversee the entire system.
 
 ## ✨ Implemented Features
 
@@ -42,7 +40,7 @@ This document provides a comprehensive overview of the MuleWave Learning Managem
 
 ### 💳 Payment Integration
 - ✅ PayPal REST API integration
-- ✅ Sandbox mode for testing
+- ✅ Sandbox mode for testing --> We can make it production mode for publishing
 - ✅ Payment success/cancel handling
 - ✅ Payment history tracking
 - ✅ Free course enrollment
@@ -63,7 +61,7 @@ This document provides a comprehensive overview of the MuleWave Learning Managem
 Completed Components:
 ├── Server Configuration ✅
 ├── Database Connection ✅
-├── Models (5 schemas) ✅
+├── Models (5 schemas) ✅ // mongodb collections
 │   ├── User
 │   ├── Course
 │   ├── Enrollment

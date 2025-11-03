@@ -26,7 +26,7 @@ const reviewSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// User can only leave one review per course
+// User can only leave one review per course (1 to 1)
 reviewSchema.index({ course: 1, user: 1 }, { unique: true });
 
 module.exports = mongoose.model('Review', reviewSchema);

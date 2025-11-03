@@ -8,9 +8,7 @@ const generateToken = (id) => {
   });
 };
 
-// @desc    Register user
-// @route   POST /api/auth/register
-// @access  Public
+// @route   POST /api/auth/register  <-- public access
 exports.register = async (req, res) => {
   try {
     const { firstName, lastName, email, password, role } = req.body;
@@ -55,9 +53,7 @@ exports.register = async (req, res) => {
   }
 };
 
-// @desc    Login user
-// @route   POST /api/auth/login
-// @access  Public
+// POST /api/auth/login <-- public access
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -97,7 +93,7 @@ exports.login = async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        role: user.role,
+        role: user.role,    // <-- is he student, instructor, or admin
         token: generateToken(user._id)
       }
     });
@@ -109,9 +105,7 @@ exports.login = async (req, res) => {
   }
 };
 
-// @desc    Get current logged in user
-// @route   GET /api/auth/me
-// @access  Private
+// GET /api/auth/me   <--private access
 exports.getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
@@ -130,9 +124,7 @@ exports.getMe = async (req, res) => {
   }
 };
 
-// @desc    Update user profile
-// @route   PUT /api/auth/updateprofile
-// @access  Private
+// PUT /api/auth/updateprofile <-- private access 
 exports.updateProfile = async (req, res) => {
   try {
     const fieldsToUpdate = {

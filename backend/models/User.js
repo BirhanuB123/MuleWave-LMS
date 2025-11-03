@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['student', 'instructor', 'admin'],
+    enum: ['student', 'instructor', 'admin'], // We should include 'School' --> if we rent our software for shcools???
     default: 'student'
   },
   avatar: {
@@ -39,11 +39,11 @@ const userSchema = new mongoose.Schema({
     default: ''
   },
   enrolledCourses: [{
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId, //fetch from Mongodb
     ref: 'Course'
   }],
   createdCourses: [{
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId, //fetch from Mongodb
     ref: 'Course'
   }],
   isActive: {
