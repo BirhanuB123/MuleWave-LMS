@@ -102,6 +102,7 @@ const Courses = () => {
                   placeholder="Search courses..."
                   value={filters.search}
                   onChange={(e) => handleFilterChange('search', e.target.value)}
+                  aria-label="Search courses"
                 />
               </div>
             </div>
@@ -111,6 +112,7 @@ const Courses = () => {
               <select 
                 value={filters.category} 
                 onChange={(e) => handleFilterChange('category', e.target.value)}
+                aria-label="Filter by category"
               >
                 <option value="">All Categories</option>
                 {categories.map(cat => (
@@ -124,6 +126,7 @@ const Courses = () => {
               <select 
                 value={filters.level} 
                 onChange={(e) => handleFilterChange('level', e.target.value)}
+                aria-label="Filter by level"
               >
                 <option value="">All Levels</option>
                 {levels.map(level => (
@@ -137,6 +140,7 @@ const Courses = () => {
               <select 
                 value={filters.sort} 
                 onChange={(e) => handleFilterChange('sort', e.target.value)}
+                aria-label="Sort courses"
               >
                 {sortOptions.map(option => (
                   <option key={option.value} value={option.value}>{option.label}</option>
@@ -148,9 +152,16 @@ const Courses = () => {
           {/* Courses Grid */}
           <div className="courses-main">
             {loading ? (
-              <div className="loading-container">
-                <div className="spinner"></div>
-              </div>
+              <>
+                <div className="courses-count">
+                  <div className="skeleton-line" style={{ width: '180px', height: '18px' }} />
+                </div>
+                <div className="courses-skeleton-grid">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className="skeleton-tile" />
+                  ))}
+                </div>
+              </>
             ) : courses.length > 0 ? (
               <>
                 <div className="courses-count">

@@ -1,7 +1,10 @@
 .instructor-dashboard-page {
   min-height: calc(100vh - 200px);
   padding: 3rem 0;
-  background: var(--gray-50);
+  background:
+    radial-gradient(1000px 300px at 0% 0%, rgba(99, 102, 241, 0.06), transparent 60%),
+    radial-gradient(1000px 300px at 100% 0%, rgba(59, 130, 246, 0.06), transparent 60%),
+    var(--gray-50);
 }
 
 .dashboard-header {
@@ -104,6 +107,18 @@ td {
   padding: 1rem;
   border-bottom: 1px solid var(--gray-200);
   vertical-align: middle;
+}
+
+tbody tr:hover td {
+  background: #fafbff;
+}
+
+tbody tr:nth-child(odd) td {
+  background: #fff;
+}
+
+tbody tr:nth-child(even) td {
+  background: #fcfcff;
 }
 
 .course-info {

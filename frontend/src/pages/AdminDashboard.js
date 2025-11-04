@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { FaUsers, FaGraduationCap, FaMoneyBillWave, FaStar, FaEye, FaCheck, FaTrash, FaBan } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
@@ -23,6 +23,12 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
+
+  // Formatting helpers
+  const currency = useMemo(
+    () => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }),
+    []
+  );
 
   useEffect(() => {
     fetchData();
@@ -175,26 +181,55 @@ const AdminDashboard = () => {
     setShowConfirmModal(true);
   };
 
-  const filteredItems = () => {
+  const filteredItems = useMemo(() => {
     const items = activeTab === 'courses' ? courses : users;
-    return items.filter(item => {
+    return items.filter((item) => {
       const name = item.title || `${item.firstName} ${item.lastName}`;
-      const matchesSearch = name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesStatus = statusFilter === 'all' || 
-                           (activeTab === 'courses' ? 
-                             (statusFilter === 'approved' ? item.isPublished : !item.isPublished) : 
-                             item.status === statusFilter);
+      const matchesSearch = name?.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesStatus =
+        statusFilter === 'all' ||
+        (activeTab === 'courses'
+          ? statusFilter === 'approved'
+            ? item.isPublished
+            : !item.isPublished
+          : (item.status || 'active') === statusFilter);
       return matchesSearch && matchesStatus;
     });
-  };
+  }, [activeTab, courses, users, searchTerm, statusFilter]);
 
-  if (loading) return (
-    <div className="admin-dashboard">
-      <div className="container">
-        <div>Loading...</div>
+  if (loading)
+    return (
+      <div className="admin-dashboard">
+        <div className="container">
+          <div className="dashboard-header">
+            <div>
+              <div className="skeleton-line skeleton-title" />
+              <div className="skeleton-line skeleton-subtitle" />
+            </div>
+          </div>
+
+          <div className="stats-grid">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="stat-card skeleton-card">
+                <div className="skeleton-circle" />
+                <div style={{ flex: 1 }}>
+                  <div className="skeleton-line" />
+                  <div className="skeleton-line short" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="content-section">
+            <div className="skeleton-table">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="skeleton-row" />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  );
+    );
 
   const renderStats = () => (
     <div className="stats-grid">
@@ -221,7 +256,7 @@ const AdminDashboard = () => {
           <FaMoneyBillWave />
         </div>
         <div className="stat-content">
-          <h3>${stats.totalRevenue || 0}</h3>
+          <h3>{currency.format(stats.totalRevenue || 0)}</h3>
           <p>Total Revenue</p>
         </div>
       </div>
@@ -249,11 +284,13 @@ const AdminDashboard = () => {
           className="search-input"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          aria-label="Search courses"
         />
         <select
           className="filter-select"
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
+          aria-label="Filter by status"
         >
           <option value="all">All Status</option>
           <option value="pending">Pending</option>
@@ -272,7 +309,7 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredItems().map((course) => (
+            {filteredItems.map((course) => (
               <tr key={course._id}>
                 <td>
                   <div className="item-info">
@@ -289,13 +326,14 @@ const AdminDashboard = () => {
                     {course.isPublished ? 'Approved' : 'Pending'}
                   </span>
                 </td>
-                <td>${course.price}</td>
+                <td>{currency.format(course.price || 0)}</td>
                 <td>
                   <div className="action-buttons">
                     <button
                       className="btn-icon btn-view"
                       onClick={() => navigate(`/courses/${course._id}`)}
                       title="View Course"
+                      aria-label="View Course"
                     >
                       <FaEye />
                     </button>
@@ -304,6 +342,7 @@ const AdminDashboard = () => {
                         className="btn-icon btn-approve"
                         onClick={() => confirmAction(course, 'publish')}
                         title="Approve Course"
+                        aria-label="Approve Course"
                       >
                         <FaCheck />
                       </button>
@@ -312,6 +351,7 @@ const AdminDashboard = () => {
                       className="btn-icon btn-delete"
                       onClick={() => confirmAction(course, 'deleteCourse')}
                       title="Delete Course"
+                      aria-label="Delete Course"
                     >
                       <FaTrash />
                     </button>
@@ -337,11 +377,13 @@ const AdminDashboard = () => {
           className="search-input"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          aria-label="Search users"
         />
         <select
           className="filter-select"
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
+          aria-label="Filter by status"
         >
           <option value="all">All Status</option>
           <option value="active">Active</option>
@@ -360,11 +402,11 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredItems().map((user) => (
+            {filteredItems.map((user) => (
               <tr key={user._id}>
                 <td>
                   <div className="item-info">
-                    <img src={user.avatar || '/default-avatar.png'} alt={user.name} />
+                    <img src={user.avatar || '/default-avatar.png'} alt={`${user.firstName} ${user.lastName}`} />
                     <div className="details">
                       <h4>{user.firstName} {user.lastName}</h4>
                       <span>{user.email}</span>
@@ -384,6 +426,7 @@ const AdminDashboard = () => {
                       className="btn-icon btn-view"
                       onClick={() => navigate(`/users/${user._id}`)}
                       title="View User"
+                      aria-label="View User"
                     >
                       <FaEye />
                     </button>
@@ -391,6 +434,7 @@ const AdminDashboard = () => {
                       className="btn-icon btn-approve"
                       onClick={() => confirmAction(user, user.status === 'active' ? 'deactivate' : 'activate')}
                       title={user.status === 'active' ? 'Deactivate User' : 'Activate User'}
+                      aria-label={user.status === 'active' ? 'Deactivate User' : 'Activate User'}
                     >
                       {user.status === 'active' ? <FaBan /> : <FaCheck />}
                     </button>
@@ -398,6 +442,7 @@ const AdminDashboard = () => {
                       className="btn-icon btn-delete"
                       onClick={() => confirmAction(user, 'deleteUser')}
                       title="Delete User"
+                      aria-label="Delete User"
                     >
                       <FaTrash />
                     </button>
@@ -487,7 +532,7 @@ const AdminDashboard = () => {
               setStatusFilter('all');
             }}
           >
-            Courses
+            <FaGraduationCap style={{ marginRight: 8 }} /> Courses
           </button>
           <button
             className={`tab-btn ${activeTab === 'users' ? 'active' : ''}`}
@@ -497,7 +542,7 @@ const AdminDashboard = () => {
               setStatusFilter('all');
             }}
           >
-            Users
+            <FaUsers style={{ marginRight: 8 }} /> Users
           </button>
         </div>
 

@@ -103,8 +103,10 @@ const Home = () => {
           </div>
 
           {loading ? (
-            <div className="loading-container">
-              <div className="spinner"></div>
+            <div className="courses-grid">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="skeleton-tile" />
+              ))}
             </div>
           ) : featuredCourses.length > 0 ? (
             <div className="courses-grid">

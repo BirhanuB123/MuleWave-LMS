@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../utils/api';
-import { FaPlus, FaEdit, FaTrash, FaEye, FaUsers } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaEye, FaUsers, FaStar } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import '../styles/InstructorDashboard.css';
 
@@ -92,7 +92,7 @@ const InstructorDashboard = () => {
 
           <div className="stat-card">
             <div className="stat-icon" style={{ background: 'var(--info)' }}>
-              ⭐
+              <FaStar />
             </div>
             <div className="stat-content">
               <h3>{avgRating}</h3>
@@ -146,19 +146,19 @@ const InstructorDashboard = () => {
                       <td>{course.enrollmentCount || 0}</td>
                       <td>
                         <div className="rating">
-                          ⭐ {course.rating > 0 ? course.rating.toFixed(1) : 'N/A'}
+                          <FaStar /> {course.rating > 0 ? course.rating.toFixed(1) : 'N/A'}
                         </div>
                       </td>
-                      <td>${course.price}</td>
+                      <td>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(course.price || 0)}</td>
                       <td>
                         <div className="action-buttons">
                           <Link to={`/courses/${course._id}`} title="View">
-                            <button className="btn-icon btn-view">
+                            <button className="btn-icon btn-view" aria-label="View Course">
                               <FaEye />
                             </button>
                           </Link>
                           <Link to={`/instructor/edit-course/${course._id}`} title="Edit">
-                            <button className="btn-icon btn-edit">
+                            <button className="btn-icon btn-edit" aria-label="Edit Course">
                               <FaEdit />
                             </button>
                           </Link>
@@ -166,6 +166,7 @@ const InstructorDashboard = () => {
                             className="btn-icon btn-delete" 
                             onClick={() => handleDeleteCourse(course._id)}
                             title="Delete"
+                            aria-label="Delete Course"
                           >
                             <FaTrash />
                           </button>

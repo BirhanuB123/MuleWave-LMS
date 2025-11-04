@@ -1,6 +1,10 @@
 .my-courses-page {
   min-height: calc(100vh - 200px);
   padding-bottom: 3rem;
+  background:
+    radial-gradient(1000px 300px at 0% 0%, rgba(99, 102, 241, 0.06), transparent 60%),
+    radial-gradient(1000px 300px at 100% 0%, rgba(59, 130, 246, 0.06), transparent 60%),
+    var(--gray-50);
 }
 
 .my-courses-header {
