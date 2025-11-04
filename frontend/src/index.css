@@ -2,50 +2,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* Smoother font rendering for shine */
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  background-color: #f7f8fb;
-  /* Vibrant animated gradient background for shine */
-  background-image:
-    linear-gradient(120deg, #60a5fa 0%, #06b6d4 50%, #f59e0b 100%),
-    url('./assets/pattern.svg');
-  background-blend-mode: lighten;
-  background-size: 200% 200%, auto;
-  animation: gradientMove 8s ease-in-out infinite;
-  color: var(--gray-800);
-  position: relative;
-  min-height: 100vh;
-}
-
-@keyframes gradientMove {
-  0% { background-position: 0% 50%, 0 0; }
-  50% { background-position: 100% 50%, 0 0; }
-  100% { background-position: 0% 50%, 0 0; }
-}
-
-body::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  pointer-events: none;
-  z-index: 0;
-  /* Abstract shine shapes */
-  background:
-    radial-gradient(circle at 20% 30%, rgba(99,102,241,0.12) 0, transparent 60%),
-    radial-gradient(circle at 80% 70%, rgba(6,182,212,0.10) 0, transparent 60%),
-    radial-gradient(circle at 50% 90%, rgba(245,158,11,0.10) 0, transparent 60%);
-}
-
-body > * {
-  position: relative;
-  z-index: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f9fafb;
+  color: #1f2937;
 }
 
 code {
@@ -53,16 +18,10 @@ code {
 }
 
 :root {
-  /* Educational palette: deep navy + cyan accent + warm gold */
-  --primary: #0f172a;         /* deep navy for text and anchors */
-  --primary-dark: #0b1220;    /* darker navy */
-  --primary-light: #60a5fa;   /* soft blue highlights */
-  --secondary: #7c3aed;      /* complementary violet used across UI */
-  --accent: #06b6d4;          /* cyan accent for CTAs */
-  --accent-2: #f59e0b;        /* warm gold accent */
-  /* reference assets from src so webpack can resolve during build */
-  --bg-pattern: url('./assets/pattern.svg');
-  --hero-illustration: url('./assets/education-illustration.svg');
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #818cf8;
+  --secondary: #8b5cf6;
   --success: #10b981;
   --danger: #ef4444;
   --warning: #f59e0b;
@@ -210,14 +169,11 @@ code {
 }
 
 .card {
-  /* glassy card for depth and softness */
-  background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.78));
+  background: white;
   border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
-  transition: all 0.28s cubic-bezier(.2,.9,.3,1);
-  border: 1px solid rgba(99,102,241,0.06);
-  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
 }
 
 .card:hover {

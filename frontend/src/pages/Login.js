@@ -22,7 +22,7 @@ const Login = () => {
     });
   };
 
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -30,16 +30,7 @@ const Login = () => {
 
     if (result.success) {
       toast.success('Login successful!');
-      // Get updated user data from AuthContext
-      const { user } = result;
-      // Redirect based on role
-      if (user.role === 'admin') {
-        navigate('/admin/dashboard');
-      } else if (user.role === 'instructor') {
-        navigate('/instructor/dashboard');
-      } else {
-        navigate('/dashboard');
-      }
+      navigate('/dashboard');
     } else {
       toast.error(result.message);
     }

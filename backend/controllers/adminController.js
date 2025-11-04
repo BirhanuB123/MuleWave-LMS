@@ -1,6 +1,7 @@
 const Course = require('../models/Course');
 const User = require('../models/User');
 const Enrollment = require('../models/Enrollment');
+const Review = require('../models/Review');
 const Payment = require('../models/Payment');
 
 // @desc    Get admin dashboard stats
