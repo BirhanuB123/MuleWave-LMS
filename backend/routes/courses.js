@@ -9,6 +9,16 @@ const {
   getInstructorCourses
 } = require('../controllers/courseController');
 const { protect, authorize } = require('../middleware/auth');
+/*
+const {
+  getGrades,
+  getGrade,
+  createGrade,
+  updateGrade,
+  deleteGrade,
+  getInstructorCourses
+} = require('../controllers/courseController');
+*/
 
 router.route('/')
   .get(getCourses)

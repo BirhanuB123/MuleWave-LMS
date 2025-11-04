@@ -186,7 +186,7 @@ mulewave-lms (database)
 
 ```
 Backend (.env):
-├── PORT                  # Server port (5000)
+├── PORT                 # Server port (5000)
 ├── NODE_ENV             # Environment (development/production)
 ├── MONGODB_URI          # MongoDB connection string
 ├── JWT_SECRET           # Secret for JWT tokens

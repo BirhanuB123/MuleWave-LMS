@@ -94,6 +94,7 @@ Completed Components:
 │   ├── Dashboard
 │   ├── MyCourses
 │   ├── CoursePlayer
+|   |---   AdminDashBoard
 │   ├── InstructorDashboard
 │   ├── CreateCourse
 │   ├── EditCourse

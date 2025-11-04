@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['student', 'instructor', 'admin'], // We should include 'School' --> if we rent our software for shcools???
+    enum: ['student', 'instructor', 'admin'], 
     default: 'student'
   },
   avatar: {
@@ -39,11 +39,11 @@ const userSchema = new mongoose.Schema({
     default: ''
   },
   enrolledCourses: [{
-    type: mongoose.Schema.Types.ObjectId, //fetch from Mongodb
+    type: mongoose.Schema.Types.ObjectId, // fetch from Mongodb
     ref: 'Course'
   }],
   createdCourses: [{
-    type: mongoose.Schema.Types.ObjectId, //fetch from Mongodb
+    type: mongoose.Schema.Types.ObjectId, // fetch from Mongodb
     ref: 'Course'
   }],
   isActive: {
@@ -71,4 +71,8 @@ userSchema.methods.matchPassword = async function(enteredPassword) {
 };
 
 module.exports = mongoose.model('User', userSchema);
+
+
+
+
 

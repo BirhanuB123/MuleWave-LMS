@@ -93,7 +93,7 @@ exports.login = async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        role: user.role,    // <-- is he student, instructor, or admin
+        role: user.role,    // <-- is he student, instructor, or admin?
         token: generateToken(user._id)
       }
     });

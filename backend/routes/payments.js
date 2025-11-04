@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const Router = express.Router();
 const {
   createPayment,
   executePayment,
@@ -7,9 +7,9 @@ const {
 } = require('../controllers/paymentController');
 const { protect } = require('../middleware/auth');
 
-router.post('/create', protect, createPayment);
-router.post('/execute', protect, executePayment);
-router.get('/', protect, getMyPayments);
+Router.post('/create', protect, createPayment);
+Router.post('/execute', protect, executePayment);
+Router.get('/', protect, getMyPayments);
 
-module.exports = router;
+module.exports = Router;
 
