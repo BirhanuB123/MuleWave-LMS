@@ -19,6 +19,15 @@ const Navbar = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
+  // compute profile link depending on role
+  const profilePath = user
+    ? user.role === 'admin'
+      ? '/admin/dashboard'
+      : user.role === 'instructor'
+      ? '/instructor/dashboard'
+      : '/dashboard'
+    : '/dashboard';
+
   return (
     <nav className="navbar">
       <div className="container navbar-content">
@@ -26,7 +35,7 @@ const Navbar = () => {
           <FaBook className="brand-icon" />
           <span>MuleWave LMS</span>
         </Link>
-        <span className="navbar-tagline">Empowering Education with Technology</span>
+        {/* <span className="navbar-tagline">Empowering Education with Technology</span> */}
         <button className="mobile-menu-btn" onClick={toggleMobileMenu}>
           {mobileMenuOpen ? <FaTimes /> : <FaBars />}
         </button>
@@ -54,7 +63,7 @@ const Navbar = () => {
           <div className="navbar-actions">
             {user ? (
               <div className="user-menu">
-                <Link to="/dashboard" className="user-profile shine-link" onClick={() => setMobileMenuOpen(false)}>
+                <Link to={profilePath} className="user-profile shine-link" onClick={() => setMobileMenuOpen(false)}>
                   <FaUserCircle size={24} />
                   <span>{user.firstName}</span>
                 </Link>
