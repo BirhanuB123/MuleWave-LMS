@@ -21,6 +21,7 @@ import Dashboard from './pages/Dashboard';
 import MyCourses from './pages/MyCourses';
 import CoursePlayer from './pages/CoursePlayer';
 import InstructorDashboard from './pages/InstructorDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import CreateCourse from './pages/CreateCourse';
 import EditCourse from './pages/EditCourse';
 import PaymentSuccess from './pages/PaymentSuccess';
@@ -53,6 +54,8 @@ function App() {
               {/* Payment Routes */}
               <Route path="/payment/success" element={<PaymentSuccess />} />
               <Route path="/payment/cancel" element={<PaymentCancel />} />
+              {/* Admin Routes */}
+              <Route path="/admin/dashboard" element={<PrivateRoute roles={["admin"]}><AdminDashboard /></PrivateRoute>} />
             </Routes>
           </main>
           <Footer />

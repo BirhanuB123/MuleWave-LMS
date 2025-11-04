@@ -31,6 +31,7 @@ const courses = require('./routes/courses');
 const enrollments = require('./routes/enrollments');
 const payments = require('./routes/payments');
 const reviews = require('./routes/reviews');
+const admin = require('./routes/admin');
 
 // Mount routers
 app.use('/api/auth', auth);
@@ -38,6 +39,7 @@ app.use('/api/courses', courses);
 app.use('/api/enrollments', enrollments);
 app.use('/api/payments', payments);
 app.use('/api/reviews', reviews);
+app.use('/api/admin', admin);
 
 // Health check route
 app.get('/api/health', (req, res) => {

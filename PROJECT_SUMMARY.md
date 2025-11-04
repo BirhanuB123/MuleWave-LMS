@@ -165,7 +165,7 @@ cd frontend && npm start      # Frontend on port 3000
 5. **Reviews** - Course reviews and ratings
 
 ### Key Relationships:
-- User → Courses (created)
+- User → Courses (created) 
 - User → Enrollments (enrolled)
 - User → Payments (made)
 - User → Reviews (written)
