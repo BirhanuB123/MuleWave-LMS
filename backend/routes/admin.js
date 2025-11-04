@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+<<<<<<< HEAD
 const { protect, authorize } = require('../middleware/auth');
 const adminController = require('../controllers/adminController');
 
@@ -30,5 +31,16 @@ router.put('/users/:id/status', adminController.updateUserStatus);
 
 // DELETE /api/admin/courses/:id - delete course and related data
 router.delete('/courses/:id', adminController.deleteCourse);
+=======
+const { getUsers, updateUserRole, deleteUser, getAllCourses } = require('../controllers/adminController');
+const { protect, authorize } = require('../middleware/auth');
+
+// All routes protected and admin-only
+router.get('/users', protect, authorize('admin'), getUsers);
+router.put('/users/:id/role', protect, authorize('admin'), updateUserRole);
+router.delete('/users/:id', protect, authorize('admin'), deleteUser);
+
+router.get('/courses', protect, authorize('admin'), getAllCourses);
+>>>>>>> origin/feature/LMS2
 
 module.exports = router;

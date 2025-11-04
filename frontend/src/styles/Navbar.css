@@ -1,10 +1,12 @@
 .navbar {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Opaque light navbar for consistent high contrast */
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 6px 20px rgba(2,6,23,0.06);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
   position: sticky;
   top: 0;
   z-index: 1000;
-  color: white;
+  color: var(--gray-900);
 }
 
 .navbar-content {
@@ -18,11 +20,11 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 800;
-  color: white;
+  color: var(--gray-900);
   text-decoration: none;
-  transition: transform 0.3s ease;
+  transition: transform 0.18s ease, color 0.18s ease;
 }
 
 .navbar-brand:hover {
@@ -37,7 +39,7 @@
   display: none;
   background: none;
   border: none;
-  color: white;
+  color: var(--gray-900);
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0.5rem;
@@ -56,19 +58,20 @@
 }
 
 .navbar-links a {
-  color: white;
+  color: var(--gray-900);
   text-decoration: none;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
   border-radius: 8px;
-  transition: all 0.3s ease;
+  transition: all 0.18s ease;
   display: flex;
   align-items: center;
 }
 
 .navbar-links a:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+  background: rgba(14,165,164,0.08); /* subtle teal tint */
+  transform: translateY(-2px) scale(1.02);
+  color: var(--primary-dark);
 }
 
 .navbar-actions {
@@ -87,7 +90,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: white;
+  color: var(--gray-900);
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 8px;
@@ -99,13 +102,13 @@
 }
 
 .btn-outline {
-  border-color: white;
-  color: white;
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .btn-outline:hover {
-  background: white;
-  color: var(--primary);
+  background: var(--primary);
+  color: white;
 }
 
 /* Mobile Responsive */
@@ -119,14 +122,16 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    /* keep mobile menu readable while maintaining glass effect */
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    backdrop-filter: blur(6px);
     flex-direction: column;
     padding: 1rem;
     gap: 1rem;
     transform: translateY(-100%);
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
   }
 
   .navbar-menu.active {

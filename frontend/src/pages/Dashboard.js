@@ -2,13 +2,16 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import api from '../utils/api';
-import { FaBook, FaCertificate, FaChartLine, FaUserCircle } from 'react-icons/fa';
+import { FaBook, FaCertificate, FaChartLine, FaUserCircle, FaUsers } from 'react-icons/fa';
+import RatingModal from '../components/RatingModal';
 import '../styles/Dashboard.css';
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const [enrollments, setEnrollments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [ratingModalOpen, setRatingModalOpen] = useState(false);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
 
   useEffect(() => {
     fetchEnrollments();
@@ -22,6 +25,24 @@ const Dashboard = () => {
       console.error('Error fetching enrollments:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const downloadCertificate = async (enrollmentId) => {
+    try {
+      const response = await api.get(`/enrollments/${enrollmentId}/certificate`, { responseType: 'blob' });
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `certificate-${enrollmentId}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || 'Failed to download certificate');
     }
   };
 
@@ -120,9 +141,23 @@ const Dashboard = () => {
                     </div>
                     <div className="progress-info">
                       <span>{enrollment.progress}% Complete</span>
-                      <Link to={`/course-player/${enrollment.course._id}`}>
-                        <button className="btn btn-sm btn-primary">Continue</button>
-                      </Link>
+                            <Link to={`/course-player/${enrollment.course._id}`}>
+                              <button className="btn btn-sm btn-primary">Continue</button>
+                            </Link>
+                            {enrollment.progress === 100 && (
+                                <>
+                                  <button className="btn btn-sm btn-outline" onClick={() => downloadCertificate(enrollment._id)} style={{marginLeft: '8px'}}>
+                                    Download Certificate
+                                  </button>
+                                  <button
+                                    className="btn btn-sm btn-outline"
+                                    onClick={() => { setSelectedCourseId(enrollment.course._id); setRatingModalOpen(true); }}
+                                    style={{ marginLeft: '8px' }}
+                                  >
+                                    Rate
+                                  </button>
+                                </>
+                            )}
                     </div>
                   </div>
                 </div>
@@ -158,6 +193,27 @@ const Dashboard = () => {
             </div>
           </section>
         )}
+
+        {user?.role === 'admin' && (
+          <section className="dashboard-section">
+            <h2>Admin Actions</h2>
+            <div className="quick-actions">
+              <Link to="/admin/dashboard" className="action-card">
+                <FaUsers size={32} />
+                <h3>Admin Panel</h3>
+                <p>Manage users, courses and payments</p>
+              </Link>
+            </div>
+          </section>
+        )}
+        <RatingModal
+          open={ratingModalOpen}
+          onClose={() => setRatingModalOpen(false)}
+          courseId={selectedCourseId}
+          onSuccess={() => {
+            // optional: refresh enrollments or other state
+          }}
+        />
       </div>
     </div>
   );

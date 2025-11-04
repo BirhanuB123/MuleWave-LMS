@@ -21,6 +21,9 @@ import Dashboard from './pages/Dashboard';
 import MyCourses from './pages/MyCourses';
 import CoursePlayer from './pages/CoursePlayer';
 import InstructorDashboard from './pages/InstructorDashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminUsers from './pages/AdminUsers';
+import AdminCourses from './pages/AdminCourses';
 import CreateCourse from './pages/CreateCourse';
 import EditCourse from './pages/EditCourse';
 import PaymentSuccess from './pages/PaymentSuccess';
@@ -47,6 +50,9 @@ function App() {
               
               {/* Instructor Routes */}
               <Route path="/instructor/dashboard" element={<PrivateRoute roles={['instructor', 'admin']}><InstructorDashboard /></PrivateRoute>} />
+              <Route path="/admin/dashboard" element={<PrivateRoute roles={['admin']}><AdminDashboard /></PrivateRoute>} />
+              <Route path="/admin/users" element={<PrivateRoute roles={['admin']}><AdminUsers /></PrivateRoute>} />
+              <Route path="/admin/courses" element={<PrivateRoute roles={['admin']}><AdminCourses /></PrivateRoute>} />
               <Route path="/instructor/create-course" element={<PrivateRoute roles={['instructor', 'admin']}><CreateCourse /></PrivateRoute>} />
               <Route path="/instructor/edit-course/:id" element={<PrivateRoute roles={['instructor', 'admin']}><EditCourse /></PrivateRoute>} />
               
