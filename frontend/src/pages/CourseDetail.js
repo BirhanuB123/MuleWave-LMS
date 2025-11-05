@@ -113,29 +113,45 @@ const CourseDetail = () => {
         <div className="container">
           <div className="course-hero-content">
             <div className="course-info">
+              <div className="breadcrumbs">
+                <Link to="/courses">Courses</Link>
+                <span>›</span>
+                <span>{course.category}</span>
+              </div>
               <span className="course-category">{course.category}</span>
               <h1>{course.title}</h1>
               <p className="course-short-desc">{course.shortDescription}</p>
               
               <div className="course-meta">
-                <div className="meta-item">
+                <div className="meta-item" title="Course Rating">
                   <FaStar className="star-icon" />
-                  <span>{course.rating > 0 ? course.rating.toFixed(1) : 'New'}</span>
-                  <span className="meta-secondary">({course.totalReviews} reviews)</span>
+                  <div className="meta-content">
+                    <span className="meta-value">{course.rating > 0 ? course.rating.toFixed(1) : 'New'}</span>
+                    <span className="meta-secondary">({course.totalReviews} reviews)</span>
+                  </div>
                 </div>
-                <div className="meta-item">
+                <div className="meta-item" title="Enrolled Students">
                   <FaUsers />
-                  <span>{course.enrollmentCount} students</span>
+                  <div className="meta-content">
+                    <span className="meta-value">{course.enrollmentCount}</span>
+                    <span className="meta-secondary">students</span>
+                  </div>
                 </div>
                 {course.duration && (
-                  <div className="meta-item">
+                  <div className="meta-item" title="Course Duration">
                     <FaClock />
-                    <span>{course.duration}</span>
+                    <div className="meta-content">
+                      <span className="meta-value">{course.duration}</span>
+                      <span className="meta-secondary">total length</span>
+                    </div>
                   </div>
                 )}
-                <div className="meta-item">
+                <div className="meta-item" title="Course Language">
                   <FaGlobe />
-                  <span>{course.language}</span>
+                  <div className="meta-content">
+                    <span className="meta-value">{course.language}</span>
+                    <span className="meta-secondary">language</span>
+                  </div>
                 </div>
               </div>
 
