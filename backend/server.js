@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
+const http = require('http');
+const setupSocketIO = require('./socketServer');
 
 // Load env vars
 dotenv.config();
@@ -11,6 +13,16 @@ dotenv.config();
 connectDB();
 
 const app = express();
+const server = http.createServer(app);
+const io = require('socket.io')(server, {
+    cors: {
+        origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+        credentials: true
+    }
+});
+
+// Set up Socket.IO
+setupSocketIO(io);
 
 // Body parser
 app.use(express.json());
@@ -32,6 +44,8 @@ const enrollments = require('./routes/enrollments');
 const payments = require('./routes/payments');
 const reviews = require('./routes/reviews');
 const admin = require('./routes/admin');
+const chat = require('./routes/chat');
+const quiz = require('./routes/quiz');
 
 // Mount routers
 app.use('/api/auth', auth);
@@ -40,6 +54,8 @@ app.use('/api/enrollments', enrollments);
 app.use('/api/payments', payments);
 app.use('/api/reviews', reviews);
 app.use('/api/admin', admin);
+app.use('/api/chat', chat);
+app.use('/api/quizzes', quiz);
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -51,8 +67,9 @@ app.get('/api/health', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`👉 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+  console.log('WebSocket server is ready');
 });
 
 // Handle unhandled promise rejections

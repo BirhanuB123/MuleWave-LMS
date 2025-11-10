@@ -68,6 +68,7 @@ MuleWave-LMS/
 │   │   │   ├── 📄 Dashboard.js           # Student dashboard
 │   │   │   ├── 📄 MyCourses.js           # Enrolled courses list
 │   │   │   ├── 📄 CoursePlayer.js        # Course video player
+│   │   │   ├── 📄 AdminDashBoard.js      # Adminstration page
 │   │   │   ├── 📄 InstructorDashboard.js # Instructor dashboard
 │   │   │   ├── 📄 CreateCourse.js        # Create new course
 │   │   │   ├── 📄 EditCourse.js          # Edit existing course
@@ -85,6 +86,7 @@ MuleWave-LMS/
 │   │   │   ├── 📄 Dashboard.css          # Dashboard styles
 │   │   │   ├── 📄 MyCourses.css          # My courses styles
 │   │   │   ├── 📄 CoursePlayer.css       # Course player styles
+│   │   │   ├── 📄 AdminDashBoard.css     # Adminstration dashboard styles
 │   │   │   ├── 📄 InstructorDashboard.css # Instructor dashboard styles
 │   │   │   ├── 📄 CourseForm.css         # Course form styles
 │   │   │   └── 📄 Payment.css            # Payment pages styles
@@ -99,7 +101,7 @@ MuleWave-LMS/
 │   ├── 📄 package.json                   # Frontend dependencies
 │   └── 📄 .gitignore                     # Frontend gitignore
 │
-└── 📁 node_modules/                      # Dependencies (not committed) <-- npm dependencies
+└── 📁 node_modules/                      # Dependencies (not committed) <-- dependencies
 
 ```
 

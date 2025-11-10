@@ -414,7 +414,6 @@ This project is licensed under the MIT License.
 
 ## 🙏 Acknowledgments
 
-- Inspired by platforms like [Anthology/Blackboard](https://www.anthology.com/)
 - Built with modern web technologies
 - Designed for scalability and user experience
 

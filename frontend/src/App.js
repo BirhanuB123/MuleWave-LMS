@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // Context
 import { AuthProvider } from './context/AuthContext';
+import { SocketProvider } from './context/SocketContext';
 
 // Components
 import Navbar from './components/Navbar';
@@ -32,11 +33,12 @@ import PaymentCancel from './pages/PaymentCancel';
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="App" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Navbar />
-          <main style={{ flex: 1 }}>
-            <Routes>
+      <SocketProvider>
+        <Router>
+          <div className="App" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <Navbar />
+            <main style={{ flex: 1 }}>
+              <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
@@ -76,6 +78,7 @@ function App() {
           />
         </div>
       </Router>
+      </SocketProvider>
     </AuthProvider>
   );
 }

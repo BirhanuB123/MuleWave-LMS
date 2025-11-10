@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../utils/api';
 import { toast } from 'react-toastify';
-import { FaCheckCircle, FaPlay, FaLock } from 'react-icons/fa';
+import { FaCheckCircle, FaPlay, FaLock, FaComments } from 'react-icons/fa';
+import { useSocket } from '../context/SocketContext';
+import { useAuth } from '../context/AuthContext';
+import ChatWindow from '../components/ChatWindow';
 import '../styles/CoursePlayer.css';
 
 const CoursePlayer = () => {
@@ -11,6 +14,9 @@ const CoursePlayer = () => {
   const [enrollment, setEnrollment] = useState(null);
   const [currentLecture, setCurrentLecture] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showChat, setShowChat] = useState(false);
+  const socket = useSocket();
+  const { user } = useAuth();
 
   useEffect(() => {
     fetchCourseAndEnrollment();
@@ -92,6 +98,7 @@ const CoursePlayer = () => {
 
   return (
     <div className="course-player">
+      {console.log('Debug - Course Player:', { showChat, socket, user, courseId: id })}
       {/* Video Player Section */}
       <div className="player-section">
         <div className="video-container">
@@ -145,6 +152,26 @@ const CoursePlayer = () => {
           )}
         </div>
       </div>
+
+      {/* Chat Toggle Button */}
+      <button 
+        className="chat-toggle-button" 
+        onClick={() => setShowChat(!showChat)}
+        title={showChat ? "Hide Chat" : "Show Chat"}
+      >
+        <FaComments />
+      </button>
+
+      {/* Chat Window */}
+      {showChat && (
+        <div className="chat-container">
+          <ChatWindow
+            courseId={id}
+            socket={socket}
+            currentUser={user}
+          />
+        </div>
+      )}
 
       {/* Curriculum Sidebar */}
       <div className="curriculum-sidebar">
