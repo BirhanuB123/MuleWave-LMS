@@ -17,7 +17,7 @@ exports.getCourseMessages = asyncHandler(async (req, res) => {
 
     res.json({
         success: true,
-        data: messages.reverse() // Return in chronological order
+        data: messages.reverse() 
     });
 });
 
