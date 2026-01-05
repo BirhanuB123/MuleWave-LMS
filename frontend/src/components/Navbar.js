@@ -1,13 +1,23 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { FaUserCircle, FaBook, FaChalkboardTeacher, FaBars, FaTimes } from 'react-icons/fa';
+import { FaUserCircle, FaBook, FaChalkboardTeacher, FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa';
 import '../styles/Navbar.css';
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+
+  React.useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   const handleLogout = () => {
     logout();
@@ -17,6 +27,10 @@ const Navbar = () => {
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
   };
 
   return (
@@ -56,6 +70,14 @@ const Navbar = () => {
           </div>
 
           <div className="navbar-actions">
+            <button
+              className="theme-toggle btn btn-outline btn-sm"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? <FaSun /> : <FaMoon />}
+              <span style={{ marginLeft: '0.25rem' }}>{theme === 'dark' ? 'Light' : 'Dark'}</span>
+            </button>
             {user ? (
               <div className="user-menu">
                 <Link to="/dashboard" className="user-profile" onClick={() => setMobileMenuOpen(false)}>

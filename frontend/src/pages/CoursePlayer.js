@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import api from '../utils/api';
 import { toast } from 'react-toastify';
-import { FaCheckCircle, FaPlay, FaLock, FaComments } from 'react-icons/fa';
+import { FaCheckCircle, FaPlay, FaLock, FaComments, FaQuestionCircle, FaClock, FaTrophy } from 'react-icons/fa';
 import { useSocket } from '../context/SocketContext';
 import { useAuth } from '../context/AuthContext';
 import ChatWindow from '../components/ChatWindow';
@@ -13,13 +13,16 @@ const CoursePlayer = () => {
   const [course, setCourse] = useState(null);
   const [enrollment, setEnrollment] = useState(null);
   const [currentLecture, setCurrentLecture] = useState(null);
+  const [quizzes, setQuizzes] = useState([]);
+  const [quizResults, setQuizResults] = useState({});
   const [loading, setLoading] = useState(true);
   const [showChat, setShowChat] = useState(false);
-  const socket = useSocket();
+  const { socket, isConnected } = useSocket();
   const { user } = useAuth();
 
   useEffect(() => {
     fetchCourseAndEnrollment();
+    fetchQuizzes();
   }, [id]);
 
   const fetchCourseAndEnrollment = async () => {
@@ -49,6 +52,31 @@ const CoursePlayer = () => {
       toast.error('Failed to load course');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchQuizzes = async () => {
+    try {
+      const response = await api.get(`/quizzes/course/${id}`);
+      const quizzesData = response.data.data;
+      setQuizzes(quizzesData);
+
+      // Fetch results for each quiz
+      const results = {};
+      await Promise.all(
+        quizzesData.map(async (quiz) => {
+          try {
+            const resultRes = await api.get(`/quizzes/${quiz._id}/result`);
+            results[quiz._id] = resultRes.data.data;
+          } catch (err) {
+            // No result yet for this quiz
+            results[quiz._id] = null;
+          }
+        })
+      );
+      setQuizResults(results);
+    } catch (error) {
+      console.error('Error fetching quizzes:', error);
     }
   };
 
@@ -98,7 +126,6 @@ const CoursePlayer = () => {
 
   return (
     <div className="course-player">
-      {console.log('Debug - Course Player:', { showChat, socket, user, courseId: id })}
       {/* Video Player Section */}
       <div className="player-section">
         <div className="video-container">
@@ -155,21 +182,30 @@ const CoursePlayer = () => {
 
       {/* Chat Toggle Button */}
       <button 
-        className="chat-toggle-button" 
+        className={`chat-toggle-button ${isConnected ? 'connected' : 'disconnected'}`}
         onClick={() => setShowChat(!showChat)}
-        title={showChat ? "Hide Chat" : "Show Chat"}
+        title={showChat ? "Hide Chat" : `Show Chat ${isConnected ? '(Connected)' : '(Disconnected)'}`}
       >
         <FaComments />
+        {!isConnected && <span className="connection-indicator offline"></span>}
+        {isConnected && <span className="connection-indicator online"></span>}
       </button>
 
       {/* Chat Window */}
       {showChat && (
         <div className="chat-container">
-          <ChatWindow
-            courseId={id}
-            socket={socket}
-            currentUser={user}
-          />
+          {socket && isConnected ? (
+            <ChatWindow
+              courseId={id}
+              socket={socket}
+              currentUser={user}
+            />
+          ) : (
+            <div className="chat-disconnected">
+              <p>Connecting to chat server...</p>
+              <div className="spinner-small"></div>
+            </div>
+          )}
         </div>
       )}
 
@@ -210,6 +246,43 @@ const CoursePlayer = () => {
             </div>
           ))}
         </div>
+
+        {/* Quizzes Section */}
+        {quizzes.length > 0 && (
+          <div className="quizzes-list">
+            <h3><FaQuestionCircle /> Quizzes & Assessments</h3>
+            {quizzes.map((quiz) => {
+              const result = quizResults[quiz._id];
+              return (
+                <Link
+                  key={quiz._id}
+                  to={`/quiz/${quiz._id}`}
+                  className="quiz-link-item"
+                >
+                  <div className="quiz-link-info">
+                    <h4>{quiz.title}</h4>
+                    <div className="quiz-meta-small">
+                      <span><FaQuestionCircle /> {quiz.questions?.length || 0} questions</span>
+                      {quiz.durationMinutes > 0 && (
+                        <span><FaClock /> {quiz.durationMinutes} min</span>
+                      )}
+                    </div>
+                  </div>
+                  {result ? (
+                    <div className={`quiz-status ${result.passed ? 'passed' : 'failed'}`}>
+                      <FaTrophy />
+                      <span>{result.score}/{result.maxScore}</span>
+                    </div>
+                  ) : (
+                    <div className="quiz-status pending">
+                      <span>Start</span>
+                    </div>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

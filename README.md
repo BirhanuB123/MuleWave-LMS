@@ -10,15 +10,20 @@ A comprehensive, modern Learning Management System built with the MERN stack (Mo
 - **Secure Enrollment**: Enroll in free courses or purchase paid courses via PayPal
 - **Course Player**: Access course content with video lectures and resources
 - **Progress Tracking**: Monitor your learning progress and earn certificates
+- **Quiz & Assessments**: Test your knowledge with timed quizzes and detailed feedback
 - **Reviews & Ratings**: Leave reviews and ratings for completed courses
 - **Personal Dashboard**: View all enrolled courses and learning statistics
+- **Real-time Chat**: Communicate with instructors and fellow students instantly
 
 ### For Instructors
 - **Course Creation**: Create and manage courses with comprehensive content
 - **Rich Course Editor**: Add lectures, videos, resources, and learning outcomes
-- **Analytics Dashboard**: Track student enrollment and course performance
+- **Quiz Management**: Create, edit, and manage quizzes with multiple-choice questions
+- **Assessment Tools**: Set time limits, point values, and passing criteria for quizzes
+- **Analytics Dashboard**: Track student enrollment, quiz results, and course performance
 - **Revenue Management**: Receive payments through integrated PayPal system
 - **Course Publishing**: Control when courses go live
+- **Student Communication**: Chat with students in real-time within course context
 
 ### For Admins
 - **User Management**: Manage students, instructors, and course content
@@ -35,6 +40,7 @@ A comprehensive, modern Learning Management System built with the MERN stack (Mo
 - **JWT** - Authentication and authorization
 - **bcryptjs** - Password hashing
 - **PayPal REST SDK** - Payment processing
+- **Socket.IO** - Real-time bidirectional communication
 
 ### Frontend
 - **React 18** - UI library
@@ -42,6 +48,8 @@ A comprehensive, modern Learning Management System built with the MERN stack (Mo
 - **Axios** - HTTP client
 - **React Toastify** - Notifications
 - **React Icons** - Icon library
+- **Socket.IO Client** - Real-time communication
+- **date-fns** - Date formatting
 
 ## 📋 Prerequisites
 
@@ -270,6 +278,26 @@ The system supports three user roles:
 - `PUT /api/reviews/:id` - Update review
 - `DELETE /api/reviews/:id` - Delete review
 
+### Chat (Real-time)
+- `GET /api/chat/:courseId/messages` - Get message history (paginated)
+- `POST /api/chat/:courseId/messages` - Send message (REST fallback)
+- **WebSocket Events:**
+  - `join_course` - Join course chat room
+  - `send_message` - Send real-time message
+  - `typing` - Emit typing indicator
+  - `new_message` - Receive new messages
+  - `online_users` - Get online users list
+
+### Quizzes
+- `POST /api/quizzes/course/:courseId` - Create quiz (Instructor)
+- `GET /api/quizzes/course/:courseId` - List course quizzes
+- `GET /api/quizzes/:quizId` - Get quiz details
+- `PUT /api/quizzes/:quizId` - Update quiz (Instructor)
+- `DELETE /api/quizzes/:quizId` - Delete quiz (Instructor)
+- `POST /api/quizzes/:quizId/submit` - Submit quiz answers
+- `GET /api/quizzes/:quizId/result` - Get user's quiz result
+- `GET /api/quizzes/:quizId/detailed-results` - Get detailed results (Instructor)
+
 ## 🎨 Key Features Implementation
 
 ### Authentication
@@ -421,11 +449,56 @@ This project is licensed under the MIT License.
 
 For support, email support@mulewave.com or open an issue in the repository.
 
+## ✨ Recently Added Features
+
+### Real-Time Chat System
+- ✅ **Real-time messaging** between students and instructors within courses
+- ✅ **Online user tracking** - See who's currently active
+- ✅ **Typing indicators** - Know when someone is typing
+- ✅ **Message history** - All messages are saved and paginated
+- ✅ **Auto-reconnection** - Seamless recovery from connection drops
+- ✅ **Role badges** - Visual distinction for instructors
+- ✅ **Responsive design** - Works on all devices
+
+📖 **[View Complete Chat Feature Documentation](CHAT_FEATURE_GUIDE.md)**
+
+### Quiz & Assessment System
+📖 **[View Complete Quiz & Assessment Documentation](QUIZ_FEATURE_GUIDE.md)**
+- ✅ **Multiple-choice quizzes** - Create engaging assessments for your courses
+- ✅ **Timed quizzes** - Set optional time limits for assessments
+- ✅ **Automatic grading** - Instant feedback with detailed results
+- ✅ **Point system** - Assign custom point values to questions
+- ✅ **Pass/Fail criteria** - Automatic pass/fail determination (50% passing score)
+- ✅ **Detailed feedback** - Show correct answers after submission
+- ✅ **Progress tracking** - Track quiz completion in course player
+- ✅ **Retake capability** - Students can retake quizzes to improve scores
+- ✅ **Quiz management** - Full CRUD operations for instructors
+
+#### Quiz Features for Instructors:
+- Create unlimited quizzes per course
+- Add multiple questions with customizable options (2+ options per question)
+- Set correct answers and point values
+- Configure optional time limits
+- Edit existing quizzes
+- Delete quizzes (removes all associated results)
+- Preview quizzes before publishing
+
+#### Quiz Features for Students:
+- View available quizzes in course player
+- See quiz metadata (questions count, time limit)
+- Take timed quizzes with countdown timer
+- Auto-submit when time expires
+- View detailed results with correct/incorrect answers
+- Retake quizzes to improve scores
+- Track quiz performance in course progress
+
 ## 🔮 Future Enhancements
 
-- [ ] Real-time chat between students and instructors
+- [x] Real-time chat between students and instructors ✅
+- [x] Quiz and assessment system ✅
 - [ ] Video conferencing integration
-- [ ] Quiz and assessment system
+- [ ] Advanced quiz types (True/False, Fill-in-the-blank, Essay questions)
+- [ ] Quiz analytics for instructors
 - [ ] Certificate customization
 - [ ] Mobile app (React Native)
 - [ ] AI-powered course recommendations
@@ -436,5 +509,5 @@ For support, email support@mulewave.com or open an issue in the repository.
 
 ---
 
-**Made with ❤️ by the MuleWave Team**
+**Developed by the MuleWave Team**
 

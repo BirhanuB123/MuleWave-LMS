@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import { toast } from 'react-toastify';
+import QuizManagement from '../components/QuizManagement';
 import '../styles/CourseForm.css';
 
 const EditCourse = () => {
@@ -355,6 +356,9 @@ const EditCourse = () => {
             </button>
           </div>
         </form>
+
+        {/* Quiz Management Section */}
+        <QuizManagement courseId={id} />
       </div>
     </div>
   );

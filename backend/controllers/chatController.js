@@ -1,5 +1,6 @@
 const Chat = require('../models/Chat');
 const Course = require('../models/Course');
+const Enrollment = require('../models/Enrollment');
 const asyncHandler = require('express-async-handler');
 
 // Get chat messages for a specific course
@@ -12,7 +13,7 @@ exports.getCourseMessages = asyncHandler(async (req, res) => {
         .sort({ timestamp: -1 })
         .skip((page - 1) * limit)
         .limit(limit)
-        .populate('sender', 'name email')
+        .populate('sender', 'firstName lastName avatar')
         .lean();
 
     res.json({
@@ -39,10 +40,9 @@ exports.sendMessage = asyncHandler(async (req, res) => {
     if (!isInstructor) {
         const enrollment = await Enrollment.findOne({
             course: courseId,
-            user: sender,
-            status: 'active'
+            student: sender
         });
-        
+
         if (!enrollment) {
             res.status(403);
             throw new Error('You must be enrolled in this course to send messages');
@@ -57,7 +57,7 @@ exports.sendMessage = asyncHandler(async (req, res) => {
     });
 
     const populatedMessage = await Chat.findById(chatMessage._id)
-        .populate('sender', 'name email')
+        .populate('sender', 'firstName lastName avatar')
         .lean();
 
     res.status(201).json({

@@ -80,6 +80,12 @@
   align-items: center;
 }
 
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
 .user-menu {
   display: flex;
   align-items: center;
@@ -160,6 +166,10 @@
   .navbar-actions a,
   .navbar-actions button {
     width: 100%;
+  }
+
+  .theme-toggle {
+    justify-content: center;
   }
 
   .user-menu {

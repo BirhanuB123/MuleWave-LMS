@@ -65,6 +65,10 @@ const courseSchema = new mongoose.Schema({
   }],
   requirements: [String],
   learningOutcomes: [String],
+  prerequisites: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Course'
+  }],
   rating: {
     type: Number,
     default: 0,

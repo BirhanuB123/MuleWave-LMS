@@ -124,3 +124,93 @@ exports.getQuizResult = asyncHandler(async (req, res) => {
   }
   res.json({ success: true, data: result });
 });
+
+// Update a quiz (Instructor only)
+exports.updateQuiz = asyncHandler(async (req, res) => {
+  const { quizId } = req.params;
+  const { title, description, questions, durationMinutes } = req.body;
+
+  const quiz = await Quiz.findById(quizId);
+  if (!quiz) {
+    res.status(404);
+    throw new Error('Quiz not found');
+  }
+
+  const course = await Course.findById(quiz.courseId);
+  if (!course) {
+    res.status(404);
+    throw new Error('Course not found');
+  }
+
+  // Only course instructor may update
+  if (course.instructor.toString() !== req.user._id.toString()) {
+    res.status(403);
+    throw new Error('Only the instructor can update this quiz');
+  }
+
+  quiz.title = title || quiz.title;
+  quiz.description = description !== undefined ? description : quiz.description;
+  quiz.questions = questions || quiz.questions;
+  quiz.durationMinutes = durationMinutes !== undefined ? durationMinutes : quiz.durationMinutes;
+
+  await quiz.save();
+
+  res.json({ success: true, data: quiz });
+});
+
+// Delete a quiz (Instructor only)
+exports.deleteQuiz = asyncHandler(async (req, res) => {
+  const { quizId } = req.params;
+
+  const quiz = await Quiz.findById(quizId);
+  if (!quiz) {
+    res.status(404);
+    throw new Error('Quiz not found');
+  }
+
+  const course = await Course.findById(quiz.courseId);
+  if (!course) {
+    res.status(404);
+    throw new Error('Course not found');
+  }
+
+  // Only course instructor may delete
+  if (course.instructor.toString() !== req.user._id.toString()) {
+    res.status(403);
+    throw new Error('Only the instructor can delete this quiz');
+  }
+
+  // Delete all quiz results associated with this quiz
+  await QuizResult.deleteMany({ quiz: quizId });
+
+  // Delete the quiz
+  await Quiz.findByIdAndDelete(quizId);
+
+  res.json({ success: true, message: 'Quiz and associated results deleted successfully' });
+});
+
+// Get detailed quiz results for instructor (with correct answers)
+exports.getDetailedQuizResults = asyncHandler(async (req, res) => {
+  const { quizId } = req.params;
+
+  const quiz = await Quiz.findById(quizId).populate('courseId');
+  if (!quiz) {
+    res.status(404);
+    throw new Error('Quiz not found');
+  }
+
+  const course = await Course.findById(quiz.courseId);
+  
+  // Only course instructor can view detailed results
+  if (course.instructor.toString() !== req.user._id.toString()) {
+    res.status(403);
+    throw new Error('Only the instructor can view detailed results');
+  }
+
+  const results = await QuizResult.find({ quiz: quizId })
+    .populate('user', 'firstName lastName email')
+    .sort('-createdAt')
+    .lean();
+
+  res.json({ success: true, data: { quiz, results } });
+});
